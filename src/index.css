@@ -1,0 +1,537 @@
+:root {
+  color-scheme: dark;
+  --bg: #14161c;
+  --panel: #1d2029;
+  --panel-2: #262a35;
+  --line: #343949;
+  --text: #e8ebf2;
+  --muted: #9aa2b4;
+  --accent: #6ea8fe;
+  --root: #ef6461;
+  --chord: #f2b33d;
+  --scale: #5b8def;
+  --play: #3fbf7f;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-text-size-adjust: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+button,
+select {
+  font: inherit;
+  color: var(--text);
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.55rem 0.85rem;
+  min-height: 44px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+button:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #0b1220;
+  font-weight: 600;
+}
+
+button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #0b1220;
+  font-weight: 600;
+}
+
+button.link {
+  background: none;
+  border: none;
+  color: var(--accent);
+  min-height: 0;
+  padding: 0 0.5rem;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+
+h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.6rem;
+}
+
+h3 {
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.top h1 {
+  font-size: 2rem;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+}
+
+.key-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.flash,
+.hint {
+  margin: 0;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.9rem;
+}
+
+.steps {
+  display: flex;
+  gap: 0.4rem;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.steps button {
+  white-space: nowrap;
+}
+
+.steps .num {
+  opacity: 0.7;
+  margin-right: 0.15rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 0.8fr;
+  gap: 1rem;
+}
+
+@media (max-width: 1000px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .prompt {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .top h1 {
+    font-size: 1.6rem;
+  }
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1rem;
+  min-width: 0;
+}
+
+.prompt ol {
+  padding-left: 1.2rem;
+  margin: 0 0 0.75rem;
+  line-height: 1.5;
+}
+
+.prompt li + li {
+  margin-top: 0.35rem;
+}
+
+.tempo-tip {
+  background: var(--panel-2);
+  border-radius: 10px;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.92rem;
+  margin: 0 0 0.75rem;
+}
+
+.chord-picker,
+.rating,
+.reveal-buttons,
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.chord-picker {
+  margin-bottom: 0.75rem;
+}
+
+.rating p {
+  width: 100%;
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.muted {
+  color: var(--muted);
+  margin: 0 0 0.6rem;
+  font-size: 0.9rem;
+}
+
+.small {
+  font-size: 0.82rem;
+}
+
+.reveal {
+  margin-top: 0.85rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line);
+}
+
+.note-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.4rem;
+}
+
+.note-chip {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 2.6rem;
+  padding: 0.3rem 0.4rem;
+  border-radius: 8px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+}
+
+.note-chip small {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.note-chip.chord {
+  border-color: var(--chord);
+}
+
+.note-chip.root {
+  border-color: var(--root);
+}
+
+.chord-table {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
+  gap: 0.35rem;
+}
+
+.chord-table > div {
+  display: flex;
+  flex-direction: column;
+  padding: 0.35rem 0.45rem;
+  border-radius: 8px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  font-size: 0.85rem;
+}
+
+.chord-table small,
+.chord-table span {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.chord-table .primary-chord {
+  border-color: var(--chord);
+}
+
+.bpm {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.bpm output {
+  font-size: 2rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.bpm output small {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+input[type='range'] {
+  width: 100%;
+  accent-color: var(--accent);
+  min-height: 32px;
+}
+
+.beats {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin: 0.5rem 0;
+}
+
+.beats span {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+}
+
+.beats span.on {
+  background: var(--accent);
+}
+
+.beats span.on.countin {
+  background: var(--muted);
+}
+
+.beat-status {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.4rem;
+  padding: 0.4rem;
+  border-radius: 10px;
+  margin-bottom: 0.6rem;
+  background: var(--panel-2);
+}
+
+.beat-status.idle,
+.beat-status.neutral,
+.beat-status.countin {
+  color: var(--muted);
+}
+
+.beat-status.play {
+  background: var(--play);
+  color: #08140e;
+}
+
+.beat-status.rest {
+  background: var(--panel-2);
+  color: var(--muted);
+  outline: 2px dashed var(--line);
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  min-height: 44px;
+}
+
+.check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+
+.board-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+
+.segmented {
+  display: inline-flex;
+}
+
+.segmented button {
+  border-radius: 0;
+}
+
+.segmented button:first-child {
+  border-radius: 10px 0 0 10px;
+}
+
+.segmented button:last-child {
+  border-radius: 0 10px 10px 0;
+}
+
+.segmented button + button {
+  border-left: none;
+}
+
+.position {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.position > label:first-child {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+  color: var(--muted);
+  min-width: 160px;
+}
+
+.fretboard-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.fretboard {
+  display: block;
+  max-width: none;
+}
+
+.fretboard .window {
+  fill: rgba(110, 168, 254, 0.08);
+  stroke: rgba(110, 168, 254, 0.35);
+}
+
+.fretboard .fret {
+  stroke: #6b7385;
+  stroke-width: 2;
+}
+
+.fretboard .nut {
+  stroke: #d9dee8;
+  stroke-width: 6;
+}
+
+.fretboard .string {
+  stroke: #b8bfcc;
+}
+
+.fretboard .string-name,
+.fretboard .fret-num {
+  fill: var(--muted);
+  font-size: 13px;
+}
+
+.fretboard .fret-num.octave {
+  fill: var(--text);
+  font-weight: 700;
+}
+
+.fretboard .octave-line {
+  stroke: var(--root);
+  stroke-width: 3;
+  stroke-dasharray: 6 5;
+  opacity: 0.7;
+}
+
+.fretboard .spot {
+  cursor: pointer;
+}
+
+.fretboard .spot circle {
+  stroke-width: 2;
+}
+
+.fretboard .spot text {
+  font-size: 12px;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.fretboard .spot.empty circle {
+  fill: transparent;
+  stroke: transparent;
+}
+
+.fretboard .spot.empty:hover circle {
+  stroke: rgba(255, 255, 255, 0.25);
+}
+
+.fretboard .spot.root circle {
+  fill: var(--root);
+  stroke: #ffb3b1;
+}
+
+.fretboard .spot.chord circle {
+  fill: var(--chord);
+  stroke: #ffe1a3;
+}
+
+.fretboard .spot.scale circle {
+  fill: var(--scale);
+  stroke: #aac4ff;
+}
+
+.fretboard .spot.tapped circle {
+  fill: #e8ebf2;
+  stroke: #ffffff;
+}
+
+.fretboard .spot.root text,
+.fretboard .spot.chord text,
+.fretboard .spot.tapped text {
+  fill: #12141a;
+}
+
+.fretboard .spot.scale text {
+  fill: #ffffff;
+}
+
+details summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 0.6rem;
+}
+
+.study-keys {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 0 0.75rem;
+  margin-bottom: 0.75rem;
+}
