@@ -85,8 +85,18 @@ export default function App() {
 
   const goToStep = (i: number) => {
     setStepIndex(i)
-    setLayer('hidden')
+    // Following the changes loop with nothing on the board would hide every chord change.
+    setLayer(exercises[i].id === 'changes' && metronome.running ? 'triad' : 'hidden')
     setTapped(new Set())
+  }
+
+  const toggleMetronome = () => {
+    if (metronome.running) {
+      metronome.stop()
+      return
+    }
+    if (step.id === 'changes' && layer === 'hidden') setLayer('triad')
+    void metronome.start()
   }
 
   const rate = (rating: Rating) => {
@@ -345,7 +355,7 @@ export default function App() {
           </div>
           <div className={`beat-status ${beatStatus?.cls ?? 'idle'}`}>{beatStatus?.text ?? 'Stopped'}</div>
           <div className="row">
-            <button className="primary" onClick={() => (metronome.running ? metronome.stop() : metronome.start())}>
+            <button className="primary" onClick={toggleMetronome}>
               {metronome.running ? 'Stop' : 'Start'}
             </button>
             <label className="check">

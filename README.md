@@ -11,7 +11,7 @@ Built with Vite, React, and TypeScript as an installable, offline-capable PWA (n
 ```sh
 npm install
 npm run dev        # dev server (service worker disabled)
-npm test           # theory and storage tests
+npm test           # theory, storage, and UI tests
 npm run build      # typecheck + production build to dist/
 npm run preview    # serve dist/ (service worker enabled)
 ```
@@ -40,3 +40,6 @@ Open the deployed site in Safari → Share → **Add to Home Screen**. Notes:
 `npm run build` produces static files in `dist/` with relative paths, so it works at a domain root
 or a subpath (e.g. GitHub Pages). Bump `CACHE` in `public/sw.js` when changing files that aren't
 content-hashed (icons, manifest).
+
+Pushing to `main` runs `.github/workflows/pages.yml`, which tests, builds, and deploys `dist/` to
+GitHub Pages (set the repository Pages source to **GitHub Actions**).
