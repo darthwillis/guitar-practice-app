@@ -24,6 +24,8 @@ interface Props {
   layer: Layer
   labelMode: LabelMode
   showOctaves: boolean
+  /** Treat the chord's root as "the root" in every layer (used when following chord changes). */
+  followChord?: boolean
   tapped: Set<string>
   onTap: (spot: string) => void
 }
@@ -40,16 +42,27 @@ const MARKERS = [3, 5, 7, 9, 12, 15]
 const stringY = (s: number) => TOP + (5 - s) * ROW_H
 const spotX = (f: number) => (f === 0 ? NUT_X - 22 : NUT_X + (f - 0.5) * FRET_W)
 
-export function Fretboard({ musicalKey, chord, minFret, maxFret, layer, labelMode, showOctaves, tapped, onTap }: Props) {
+export function Fretboard({
+  musicalKey,
+  chord,
+  minFret,
+  maxFret,
+  layer,
+  labelMode,
+  showOctaves,
+  followChord = false,
+  tapped,
+  onTap,
+}: Props) {
   const tonicPc = pitchClass(musicalKey.tonic)
   const chordPcs = chord.map(pitchClass)
   const chordLabels = chordToneLabels(chord)
   const scalePcs = scale(musicalKey).map(pitchClass)
+  const rootPc = layer === 'triad' || followChord ? chordPcs[0] : tonicPc
 
   const visiblePcs = new Set<number>(
-    layer === 'roots' ? [tonicPc] : layer === 'triad' ? chordPcs : layer === 'scale' ? scalePcs : [],
+    layer === 'roots' ? [rootPc] : layer === 'triad' ? chordPcs : layer === 'scale' ? scalePcs : [],
   )
-  const rootPc = layer === 'triad' ? chordPcs[0] : tonicPc
 
   const label = (pc: number) => {
     if (labelMode === 'names') return pretty(spellInKey(musicalKey, pc))

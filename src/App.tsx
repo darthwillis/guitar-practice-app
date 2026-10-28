@@ -219,7 +219,10 @@ export default function App() {
                 <button
                   key={d}
                   className={activeDegree === d ? 'active' : ''}
-                  onClick={() => setChordDegree(d)}
+                  onClick={() => {
+                    setChordDegree(d)
+                    if (layer === 'hidden') setLayer('triad')
+                  }}
                   disabled={!!followingLoop}
                 >
                   {chords[d].roman} · {chords[d].name}
@@ -411,7 +414,11 @@ export default function App() {
           {layer === 'hidden'
             ? 'Hints are hidden. Tap any spot to check a note.'
             : step.id === 'changes'
-              ? `Showing ${chords[activeDegree].name} (${chordToneLabels(chords[activeDegree].notes).join(' ')})`
+              ? layer === 'roots'
+                ? `Showing ${chords[activeDegree].name} roots.`
+                : layer === 'triad'
+                  ? `Showing ${chords[activeDegree].name} (${chordToneLabels(chords[activeDegree].notes).join(' ')}).`
+                  : `Red = ${chords[activeDegree].name} root · amber = its chord tones · blue = other scale notes.`
               : 'Red = root · amber = triad tones · blue = other scale notes. Tap spots to check others.'}
         </p>
         <Fretboard
@@ -422,6 +429,7 @@ export default function App() {
           layer={layer}
           labelMode={labelMode}
           showOctaves={showOctaves}
+          followChord={step.id === 'changes'}
           tapped={tapped}
           onTap={toggleTap}
         />
